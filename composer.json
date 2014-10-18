@@ -1,0 +1,7 @@
+{
+	"require": {
+		"league/climate": "~2.0",
+		"nesbot/Carbon": "*",
+		"league/csv": "~6.0"
+	}
+}
