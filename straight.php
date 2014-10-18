@@ -25,28 +25,32 @@ $out = array();
 switch ($conversion) {
 	case 'members':
 		$columnsToKeep = ['Id' => 'member_id', 'First Name' => 'first_name', 'Last Name' => 'last_name', 'Organization' => 'company_name'];
+		$idColumn      = 'Id';
+		$file          = 'Donors';
+		break;
 	case 'addresses':
 		$columnsToKeep = ['Id' => 'member_id', 'Phone' => 'phone_primary', 'Email' => 'email_primary', 'Phone 2' => 'phone_secondary', 'Email 2' => 'email_secondary', 'Address Line 1' => 'address_line1', 'Address Line 2' => 'address_line2', 'City' => 'town', 'State' => 'state_abbreviation', 'ZIP/Postal Code' => 'zip', 'Country' => 'country_name'];
 
-		$idColumn = 'Id';
-		$file = 'Donors';
+		$idColumn      = 'Id';
+		$file          = 'Donors';
 		break;
 	case 'donations':
 		$columnsToKeep = ['Payment Id' => 'id', 'Donor Id' => 'member_id', 'Donation Date' => 'donated_at', 'Received' => 'amount', 'Payment Type' => 'payment_json_type', 'Check Number' => 'paymnet_json_check_number', 'Fund' => 'fund_name', 'Campaign' => 'campaign_name'];
 
-		$dateColumns = ['donated_at'];
-		$idColumn = 'Payment Id';
-		$file = 'Donations';
+		$dateColumns   = ['donated_at'];
+		$idColumn      = 'Payment Id';
+		$file          = 'Donations';
 		break;
 	default:
 		# code...
 		break;
 }
 
-$csv = Reader::createFromPath('csv_in/'.$file.'.csv');
+$csv    = Reader::createFromPath('csv_in/'.$file.'.csv');
 $header = $csv->fetchOne();
-$data = $csv->fetchAssoc($header);
+$data   = $csv->fetchAssoc($header);
 unset($data[0]);
+
 foreach ($data as $line => $values) {
 	foreach ($columnsToKeep as $column => $field) {
 		$out[$values[$idColumn]][$field] = $values[$column] ? $values[$column] : NULL;
