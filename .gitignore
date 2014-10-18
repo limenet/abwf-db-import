@@ -1,2 +1,3 @@
-import_data/
+csv_in/
 vendor/
+json_out/
