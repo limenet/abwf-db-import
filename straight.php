@@ -38,7 +38,7 @@ switch ($conversion) {
 		$file          = 'Donors';
 		break;
 	case 'eastwest':
-		$columnsToKeep = ['Country' => 'country_name', 'ZIP' => 'zip', 'State short' => 'state_abbreviation', 'East/West' => 'east_west'];
+		$columnsToKeep = ['Country' => 'country_name', 'ZIP' => 'zip', 'State short' => 'state_abbreviation', 'East/West' => 'east_west', 'Town' => 'name'];
 
 		$dateColumns   = [];
 		$idColumn      = 'ZIP';
