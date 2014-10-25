@@ -12,7 +12,7 @@ $climate->flank('Converting ABWF\'s Giftworks smartlists to JSON.');
 $climate->br();
 
 
-$possibleConversions = ['members', 'addresses', 'donations', 'eastwest'];
+$possibleConversions = ['members', 'addresses', 'donations', 'eastwest', 'membership_types'];
 
 $input = $climate->input('Please select the data to convert:');
 $input->accept($possibleConversions, true);
@@ -25,6 +25,13 @@ $out = array();
 switch ($conversion) {
 	case 'members':
 		$columnsToKeep = ['Id' => 'member_id', 'First Name' => 'first_name', 'Last Name' => 'last_name', 'Organization' => 'company_name'];
+
+		$dateColumns   = [];
+		$idColumn      = 'Id';
+		$file          = 'Donors';
+		break;
+	case 'membership_types':
+		$columnsToKeep = ['Id' => 'member_id', 'Groups' => 'membership_types_names'];
 
 		$dateColumns   = [];
 		$idColumn      = 'Id';
