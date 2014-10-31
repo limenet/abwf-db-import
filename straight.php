@@ -12,7 +12,7 @@ $climate->flank('Converting ABWF\'s Giftworks smartlists to JSON.');
 $climate->br();
 
 
-$possibleConversions = ['members', 'addresses', 'donations', 'eastwest', 'membership_types'];
+$possibleConversions = ['members', 'addresses', 'donations', 'eastwest', 'membership_types', 'projects'];
 
 $input = $climate->input('Please select the data to convert:');
 $input->accept($possibleConversions, true);
@@ -23,6 +23,13 @@ $out = array();
 
 
 switch ($conversion) {
+	case 'projects':
+		$columnsToKeep = ['Id' => 'project_id', 'Title' => 'name', 'StartDate' => 'date_start', 'EndDate' => 'date_end'];
+
+		$dateColumns   = ['date_start', 'date_end'];
+		$idColumn      = 'Id';
+		$file          = 'Projects';
+		break;
 	case 'members':
 		$columnsToKeep = ['Id' => 'member_id', 'First Name' => 'first_name', 'Last Name' => 'last_name', 'Organization' => 'company_name'];
 
@@ -59,7 +66,7 @@ switch ($conversion) {
 		$file          = 'Donations';
 		break;
 	default:
-		# code...
+		die('incorrect data choice');
 		break;
 }
 
@@ -71,7 +78,7 @@ unset($data[0]);
 foreach ($data as $line => $values) {
 	foreach ($columnsToKeep as $column => $field) {
 		$out[$values[$idColumn]][$field] = $values[$column] ? $values[$column] : NULL;
-		if (in_array($field, $dateColumns) && !is_null($values[$column])) {
+		if (in_array($field, $dateColumns) && !is_null($values[$column]) && $values[$column] != '') {
 			$out[$values[$idColumn]][$field] = Carbon::createFromFormat('n/j/Y', $values[$column])->toDateString();
 		}
 	}
