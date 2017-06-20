@@ -78,7 +78,7 @@ switch (strtolower($conversion)) {
 }
 
 $csv    = Reader::createFromPath('csv_in/'.$file.'.csv');
-$header = $csv->fetchOne();
+$header = array_filter($csv->fetchOne());
 $data   = $csv->fetchAssoc($header);
 unset($data[0]);
 
